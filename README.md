@@ -21,7 +21,7 @@ A Python script that monitors [DistroWatch](https://distrowatch.com/) for new Li
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/Distro_Watcher.git
+git clone https://github.com/Cheddabob420/Distro_Watcher.git
 cd Distro_Watcher
 ```
 
