@@ -23,9 +23,7 @@ def scrape_main_feed():
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        # We look for the "NewsHeadline" class which contains the title and link
         headlines = soup.find_all('td', class_='NewsHeadline')
-        # We also need the dates, which are in "NewsDate"
         dates = soup.find_all('td', class_='NewsDate')
         
         new_entries = []
@@ -34,11 +32,16 @@ def scrape_main_feed():
         for headline, date_tag in zip(headlines, dates):
             link_tag = headline.find('a')
             if link_tag:
-                title = link_tag.text.strip()
+                # Get the raw text
+                raw_title = link_tag.text.strip()
+                
+                # Strip the specific prefix. 
+                # Note: DistroWatch often uses a non-breaking space (\xa0)
+                title = raw_title.replace("Distribution Release: ", "").replace("Distribution Release:\xa0", "").strip()
+                
                 link = "https://distrowatch.com/" + link_tag['href']
                 release_date = date_tag.text.strip()
 
-                # Check if this release is already in our CSV
                 if link not in existing_links:
                     new_entries.append({
                         "Release Date": release_date,
